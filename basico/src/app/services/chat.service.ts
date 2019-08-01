@@ -10,16 +10,23 @@ export class ChatService {
     public wsService: WebsocketService
   ) { }
 
-  sendMessage( mensaje: string) {
+  sendMessage( mensaje: string ) {
+
+    const nombre = this.wsService.getUsuario().nombre;
+
     const payload = {
-      de: 'Fernando',
+      de: nombre,
       cuerpo: mensaje
     };
 
     this.wsService.emit( 'mensaje', payload );
   }
 
-  getMessage(){
+  getMessage() {
     return this.wsService.listen('mensaje-nuevo');
+  }
+
+  getMessagesPrivate() {
+    return this.wsService.listen( 'mensaje-privado' );
   }
 }
